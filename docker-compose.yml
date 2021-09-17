@@ -1,0 +1,31 @@
+version: '3'
+services: 
+  web_m: 
+    build: ./fordocker
+    environment: 
+       - APACHE_RUN_USER=#1000
+    volumes: 
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    ports: 
+      - 8121:80 
+    working_dir: ${APP_PATH_CONTAINER}
+  db_m:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    volumes: 
+      - ${DB_PATH}:/var/lib/mysql
+  adminer_m:
+    image: adminer
+    restart: always
+    ports:
+      - 4767:8080
+  # composer: 
+  #   image: composer:2.1
+  #   volumes: 
+  #     - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+  #   working_dir: ${APP_PATH_CONTAINER} 
+  #   command: composer install
+
