@@ -1,11 +1,11 @@
 <?php
 
 Route::group(['prefix' => 'users', 'middleware' => []], function () {
-    Route::get('/', 'usersController@index')->name('users.index');
-    Route::get('/create', 'usersController@create')->name('users.create');
-    Route::post('/', 'usersController@store')->name('users.store');
-    Route::get('/{user}', 'usersController@show')->name('users.read');
-    Route::get('/edit/{user}', 'usersController@edit')->name('users.edit');
-    Route::put('/{user}', 'usersController@update')->name('users.update');
-    Route::delete('/{user}', 'usersController@destroy')->name('users.delete');
+    Route::get('/', 'UserController@index')->name('users.index');
+    Route::get('/create', 'UserController@create')->name('users.create');
+    Route::post('/', 'UserController@store')->name('users.store');
+    Route::get('/{user}', 'UserController@show')->name('users.read');
+    Route::get('/edit/{user}', 'UserController@edit')->name('users.edit');
+    Route::put('/{user}', 'UserController@update')->name('users.update');
+    Route::delete('/{user}', 'UserController@destroy')->name('users.delete');
 });

@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 
 class ModuleMake extends Command
 {
@@ -99,8 +98,11 @@ class ModuleMake extends Command
     }
 
     private function createController() {
-        $controller = Str::plural(Str::snake(class_basename($this->argument('name'))));
+        $controller = Str::studly(class_basename($this->argument('name')));
         $modelName = Str::singular(Str::studly(class_basename($this->argument('name'))));
+
+        $forNameSpace = trim($this->argument(('name')));
+        $forNameSpace = str_replace('/', '\\', $forNameSpace);
 
         $path = $this->getControllerPath($this->argument('name'));
 
@@ -121,10 +123,10 @@ class ModuleMake extends Command
                     'DummyModelVariable',
                 ],
                 [
-                    "App/Modules/".trim($this->argument(('name')))."/Controllers",
+                    "App\Modules\\".$forNameSpace."\Controllers",
                     $this->laravel->getNamespace(),
                     $controller.'Controller',
-                    "App/Modules/".trim($this->argument('name'))."/Models/{$modelName}",
+                    "App\Modules\\".$forNameSpace."\Models\\".$modelName,
                     $modelName,
                     lcfirst(($modelName))
 
@@ -226,6 +228,9 @@ class ModuleMake extends Command
 
         $modelName = Str::singular(Str::studly(class_basename($this->argument('name'))));
 
+        $forNameSpace = trim($this->argument(('name')));
+        $forNameSpace = str_replace('/', '\\', $forNameSpace);
+
         $path = $this->getApiControllerPath($this->argument('name'));
 
 
@@ -246,10 +251,10 @@ class ModuleMake extends Command
                     'DummyModelVariable',
                 ],
                 [
-                    "App/Modules/".trim($this->argument('name'))."/Controllers/Api",
+                    "App\Modules\\".$forNameSpace."\Controllers\Api",
                     $this->laravel->getNamespace(),
                     $controller.'Controller',
-                    "App/Modules/".trim($this->argument('name'))."/Models/{$modelName}",
+                    "App\Modules\\".$forNameSpace."\Models\\".$modelName,
                     $modelName,
                     lcfirst(($modelName))
                 ],
@@ -290,7 +295,7 @@ class ModuleMake extends Command
     private function createModel() {
         $model = Str::singular(Str::studly(class_basename($this->argument('name'))));
         $this->call('make:model',[
-            'name' => "App/Modules/".trim($this->argument('name'))."/Models//".$model
+            'name' => "App/Modules/".trim($this->argument('name'))."/Models/".$model
         ]);
     }
 
