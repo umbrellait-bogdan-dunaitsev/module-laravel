@@ -94,7 +94,31 @@ class ModuleMake extends Command
     }
 
     private function createView() {
-        
+        $paths = $this->getViewPath($this->argument('name'));
+
+        foreach ($paths as $path) {
+            $view = Str::studly(class_basename($this->argument('name')));
+
+            if ($this->alreadyExists($path)) {
+                $this->error('View already exists!');
+            } else {
+                $this->makeDirectory($path);
+
+                $stub = $this->files->get(base_path('resources/stubs/view.stub'));
+
+                $stub = str_replace(
+                    [
+                        '',
+                    ],
+                    [
+                    ],
+                    $stub
+                );
+
+                $this->files->put($path, $stub);
+                $this->info('View created successfully.');
+            }
+        }
     }
 
     private function createController() {

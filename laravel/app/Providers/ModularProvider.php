@@ -52,6 +52,9 @@ class ModularProvider extends ServiceProvider
                 }
             });
         }
+
+
+        $this->app['view']->addNamespace('Pub', base_path(). '/resources/views/Pub');
     }
 
     private function getWebRoutes($mod, $sub, $relativePath, $path)
@@ -67,13 +70,13 @@ class ModularProvider extends ServiceProvider
                         'middleware' => $this->getMiddleware($mod)
                     ],
                     function() use ($mod, $sub, $routesPath) {
-                        Route::namespace("App\Modules\\$mod\\$sub\Controllers")->
+                        Route::namespace("App\\Modules\\$mod\\$sub\\Controllers")->
                         group($routesPath);
                     }
                 );
             }
             else {
-                Route::namespace("App\Modules\\$mod\\$sub\Controllers")->
+                Route::namespace("App\\Modules\\$mod\\$sub\\Controllers")->
                 middleware($this->getMiddleware($mod))->
                 group($routesPath);
             }
